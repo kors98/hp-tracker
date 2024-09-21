@@ -6,7 +6,8 @@
     <title>HP Tracker</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: monospace, bold;
+			font-size: 16;
         }
 
         .tracker-container {
@@ -31,11 +32,11 @@
 			left: 0;
 			height: 100%;
 			background-color: LightCoral;
-			z-index: 1; /* Abaixo da barra de HP atual */
+			z-index: 1; 
 			opacity: 0.7;
 			transition: width 0.3s ease-in-out;
-			pointer-events: none; /* Adicione isso para evitar interferência */
-}
+			pointer-events: none;
+		}
 
         .hp-fill {
             height: 100%;
@@ -66,6 +67,7 @@
 
         h2, label, input, button {
             color: white;
+			font-family: monospace, bold;
         }
 
         .input-container {
@@ -87,7 +89,7 @@
             margin: 5px;
             text-align: right;
             flex: 0;
-            color: black; /* Texto do input em preto */
+            color: black;
         }
 
         input[type="number"] {
@@ -98,6 +100,8 @@
         button {
             padding: 5px 10px;
             font-weight: bold;
+			font-family: monospace;
+			font-size: 16px;
         }
     </style>
 </head>
@@ -127,6 +131,18 @@
         <label for="tempHp">HP Temporário:</label>
         <input type="number" id="tempHp" value="0" oninput="updateHp()">
     </div>
+
+    <div class="input-container">
+        <label for="damage">Dano:</label>
+        <input type="number" id="damage" value="0">
+        <button onclick="applyDamage()">Aplicar Dano</button>
+    </div>
+
+    <div class="input-container">
+        <label for="heal">Cura:</label>
+        <input type="number" id="heal" value="0">
+        <button onclick="applyHeal()">Aplicar Cura</button>
+    </div>
 </div>
 
 <script>
@@ -155,6 +171,35 @@
         }
 
         hpValue.textContent = `${currentHp} / ${maxHp} (+${tempHp})`;
+    }
+
+    function applyDamage() {
+        const damage = parseInt(document.getElementById("damage").value);
+        const tempHpInput = document.getElementById("tempHp");
+        const currentHpInput = document.getElementById("currentHp");
+
+        let tempHp = Math.max(0, parseInt(tempHpInput.value) - damage);
+        let currentHp = parseInt(currentHpInput.value);
+
+        if (tempHpInput.value < damage) {
+            currentHp -= (damage - (parseInt(tempHpInput.value) || 0));
+            tempHp = 0;
+        }
+
+        tempHpInput.value = tempHp;
+        currentHpInput.value = Math.max(0, currentHp);
+        updateHp();
+    }
+
+    function applyHeal() {
+        const heal = parseInt(document.getElementById("heal").value);
+        const currentHpInput = document.getElementById("currentHp");
+        const maxHp = parseInt(document.getElementById("maxHp").value);
+
+        let currentHp = Math.min(maxHp, parseInt(currentHpInput.value) + heal); // Aumenta o HP Atual, sem ultrapassar o máximo
+
+        currentHpInput.value = currentHp;
+        updateHp();
     }
 
     window.onload = updateHp; // Atualiza a barra quando a página carrega
