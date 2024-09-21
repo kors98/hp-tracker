@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HP Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .tracker-container {
+            width: 300px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hp-bar {
+            position: relative;
+            width: 100%;
+            height: 30px;
+            background-color: #ddd;
+            border: 2px solid #000;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .hp-fill {
+            height: 100%;
+            background-color: #4caf50;
+            transition: width 0.3s ease-in-out;
+            z-index: 1;
+        }
+
+        .temp-hp-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #00bcd4;
+            z-index: 2;
+            opacity: 0.7;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .overflow-hp {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            background-color: #f44336; /* Cor vermelha para overflow */
+            z-index: 3;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .hp-value {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+            line-height: 30px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; /* Contorno do texto */
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            flex: 1;
+            text-align: left;
+        }
+
+        input {
+            width: 80px;
+            padding: 5px;
+            margin: 5px;
+            text-align: right;
+            flex: 0;
+        }
+
+        input[type="number"] {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        button {
+            padding: 5px 10px;
+            font-weight: bold;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; /* Contorno do texto */
+        }
+    </style>
+</head>
+<body>
+
+<div class="tracker-container">
+    <h2>HP Tracker</h2>
+
+    <div class="hp-bar">
+        <div class="overflow-hp" id="overflowHpBar"></div>
+        <div class="temp-hp-fill" id="tempHpBar"></div>
+        <div class="hp-fill" id="hpBar"></div>
+        <div class="hp-value" id="hpValue">0 / 0</div>
+    </div>
+
+    <div class="input-container">
+        <label for="maxHp">HP Máximo:</label>
+        <input type="number" id="maxHp" value="100" oninput="updateHp()">
+    </div>
+
+    <div class="input-container">
+        <label for="currentHp">HP Atual:</label>
+        <input type="number" id="currentHp" value="100" oninput="updateHp()">
+    </div>
+
+    <div class="input-container">
+        <label for="tempHp">HP Temporário:</label>
+        <input type="number" id="tempHp" value="0" oninput="updateHp()">
+    </div>
+</div>
+
+<script>
+    function updateHp() {
+        const maxHp = parseInt(document.getElementById("maxHp").value);
+        const currentHp = parseInt(document.getElementById("currentHp").value);
+        const tempHp = parseInt(document.getElementById("tempHp").value);
+
+        const hpBar = document.getElementById("hpBar");
+        const tempHpBar = document.getElementById("tempHpBar");
+        const overflowHpBar = document.getElementById("overflowHpBar");
+        const hpValue = document.getElementById("hpValue");
+
+        const currentHpPercentage = Math.max(0, Math.min(100, (currentHp / maxHp) * 100));
+        const tempHpPercentage = Math.max(0, Math.min(100, ((currentHp + tempHp) / maxHp) * 100));
+        const totalHp = currentHp + tempHp;
+
+        hpBar.style.width = currentHpPercentage + "%";
+        tempHpBar.style.width = tempHpPercentage + "%";
+
+        if (totalHp > maxHp) {
+            const overflowPercentage = Math.min(100, ((totalHp - maxHp) / maxHp) * 100);
+            overflowHpBar.style.width = overflowPercentage + "%";
+        } else {
+            overflowHpBar.style.width = "0%";
+        }
+
+        hpValue.textContent = `${currentHp} / ${maxHp} (+${tempHp})`;
+    }
+
+    window.onload = updateHp; // Atualiza a barra quando a página carrega
+</script>
+
+</body>
+</html>
