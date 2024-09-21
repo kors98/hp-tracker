@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HP Tracker</title>
-    <style>
-        body {
-            font-family: monospace, bold;
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>HP Tracker</title>
+	<style>
+		body {
+			font-family: monospace, bold;
 			font-size: 16;
-        }
+		}
 
-        .tracker-container {
-            width: 300px;
-            margin: 0 auto;
-            text-align: center;
-        }
+		.tracker-container {
+			width: 300px;
+			margin: 0 auto;
+			text-align: center;
+		}
 
-        .hp-bar {
-            position: relative;
-            width: 100%;
-            height: 30px;
-            background-color: #ddd;
-            border: 1px solid #000;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
+		.hp-bar {
+			position: relative;
+			width: 100%;
+			height: 30px;
+			background-color: #ddd;
+			border: 1px solid #000;
+			margin-bottom: 20px;
+			overflow: hidden;
+		}
 		
 		.temp-hp-fill {
 			position: absolute;
@@ -36,173 +36,174 @@
 			opacity: 0.7;
 			transition: width 0.3s ease-in-out;
 			pointer-events: none;
+	}
+
+		.hp-fill {
+			height: 100%;
+			background-color: red;
+			transition: width 0.3s ease-in-out;
+			z-index: 2;
 		}
 
-        .hp-fill {
-            height: 100%;
-            background-color: red;
-            transition: width 0.3s ease-in-out;
-            z-index: 2;
-        }
+		.overflow-hp {
+			position: absolute;
+			top: 0;
+			height: 100%;
+			background-color: Crimson;
+			z-index: 3;
+			transition: width 0.3s ease-in-out;
+			}
 
-        .overflow-hp {
-            position: absolute;
-            top: 0;
-            height: 100%;
-            background-color: Crimson;
-            z-index: 3;
-            transition: width 0.3s ease-in-out;
-        }
-
-        .hp-value {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 4;
-            line-height: 30px;
-            font-weight: bold;
-            color: white;
+		.hp-value {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			transform: translateX(-50%);
+			z-index: 4;
+			line-height: 30px;
+			font-weight: bold;
+			color: white;
 		}
 
-        h2, label, input, button {
-            color: white;
+		h2, label, input, button {
+			color: white;
 			font-family: monospace, bold;
-        }
+		}
 
-        .input-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
+		.input-container {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 10px;
+		}
 
-        label {
-            font-weight: bold;
-            flex: 1;
-            text-align: left;
-        }
+		label {
+			font-weight: bold;
+			flex: 1;
+			text-align: left;
+		}
 
-        input {
-            width: 80px;
-            padding: 5px;
-            margin: 5px;
-            text-align: right;
-            flex: 0;
-            color: black;
-        }
+		input {
+			width: 80px;
+			padding: 5px;
+			margin: 5px;
+			text-align: right;
+			flex: 0;
+			color: black;
+		}
 
-        input[type="number"] {
-            font-weight: bold;
-            text-align: center;
-        }
+		input[type="number"] {
+			font-weight: bold;
+			text-align: center;
+		}
 
-        button {
-            padding: 5px 10px;
-            font-weight: bold;
+		button {
+			padding: 5px 10px;
+			font-weight: bold;
 			font-family: monospace;
 			font-size: 16px;
-        }
-    </style>
+			color: black
+		}
+	</style>
 </head>
 <body>
 
 <div class="tracker-container">
-    <h2>Pontos de Vida</h2>
+	<h2>Pontos de Vida</h2>
 
-    <div class="hp-bar">
+	<div class="hp-bar">
 		<div class="temp-hp-fill" id="tempHpBar"></div>
 		<div class="hp-fill" id="hpBar"></div>
-        <div class="overflow-hp" id="overflowHpBar"></div>
-        <div class="hp-value" id="hpValue">0 / 0</div>
-    </div>
+		<div class="overflow-hp" id="overflowHpBar"></div>
+		<div class="hp-value" id="hpValue">0 / 0</div>
+	</div>
 
-    <div class="input-container">
-        <label for="maxHp">HP Máximo:</label>
-        <input type="number" id="maxHp" value="100" oninput="updateHp()">
-    </div>
+	<div class="input-container">
+		<label for="maxHp">HP Máximo:</label>
+		<input type="number" id="maxHp" value="100" oninput="updateHp()">
+	</div>
 
-    <div class="input-container">
-        <label for="currentHp">HP Atual:</label>
-        <input type="number" id="currentHp" value="100" oninput="updateHp()">
-    </div>
+	<div class="input-container">
+		<label for="currentHp">HP Atual:</label>
+		<input type="number" id="currentHp" value="100" oninput="updateHp()">
+	</div>
 
-    <div class="input-container">
-        <label for="tempHp">HP Temporário:</label>
-        <input type="number" id="tempHp" value="0" oninput="updateHp()">
-    </div>
+	<div class="input-container">
+		<label for="tempHp">HP Temporário:</label>
+		<input type="number" id="tempHp" value="0" oninput="updateHp()">
+	</div>
 
-    <div class="input-container">
-        <label for="damage">Dano:</label>
-        <input type="number" id="damage" value="0">
-        <button onclick="applyDamage()">Aplicar Dano</button>
-    </div>
+	<div class="input-container">
+		<label for="damage">Dano:</label>
+		<input type="number" id="damage" value="0">
+		<button onclick="applyDamage()">Aplicar</button>
+	</div>
 
-    <div class="input-container">
-        <label for="heal">Cura:</label>
-        <input type="number" id="heal" value="0">
-        <button onclick="applyHeal()">Aplicar Cura</button>
-    </div>
+	<div class="input-container">
+		<label for="heal">Cura:</label>
+		<input type="number" id="heal" value="0">
+		<button onclick="applyHeal()">Aplicar</button>
+	</div>
 </div>
 
 <script>
-    function updateHp() {
-        const maxHp = parseInt(document.getElementById("maxHp").value);
-        const currentHp = parseInt(document.getElementById("currentHp").value);
-        const tempHp = parseInt(document.getElementById("tempHp").value);
+	function updateHp() {
+		const maxHp = parseInt(document.getElementById("maxHp").value);
+		const currentHp = parseInt(document.getElementById("currentHp").value);
+		const tempHp = parseInt(document.getElementById("tempHp").value);
 
-        const hpBar = document.getElementById("hpBar");
-        const tempHpBar = document.getElementById("tempHpBar");
-        const overflowHpBar = document.getElementById("overflowHpBar");
-        const hpValue = document.getElementById("hpValue");
+		const hpBar = document.getElementById("hpBar");
+		const tempHpBar = document.getElementById("tempHpBar");
+		const overflowHpBar = document.getElementById("overflowHpBar");
+		const hpValue = document.getElementById("hpValue");
 
-        const currentHpPercentage = Math.max(0, Math.min(100, (currentHp / maxHp) * 100));
-        const tempHpPercentage = Math.max(0, Math.min(100, ((currentHp + tempHp) / maxHp) * 100));
-        const totalHp = currentHp + tempHp;
+		const currentHpPercentage = Math.max(0, Math.min(100, (currentHp / maxHp) * 100));
+		const tempHpPercentage = Math.max(0, Math.min(100, ((currentHp + tempHp) / maxHp) * 100));
+		const totalHp = currentHp + tempHp;
 
-        hpBar.style.width = currentHpPercentage + "%";
-        tempHpBar.style.width = tempHpPercentage + "%";
+		hpBar.style.width = currentHpPercentage + "%";
+		tempHpBar.style.width = tempHpPercentage + "%";
 
-        if (totalHp > maxHp) {
-            const overflowPercentage = Math.min(100, ((totalHp - maxHp) / maxHp) * 100);
-            overflowHpBar.style.width = overflowPercentage + "%";
-        } else {
-            overflowHpBar.style.width = "0%";
-        }
+		if (totalHp > maxHp) {
+			const overflowPercentage = Math.min(100, ((totalHp - maxHp) / maxHp) * 100);
+			overflowHpBar.style.width = overflowPercentage + "%";
+		} else {
+			overflowHpBar.style.width = "0%";
+		}
 
-        hpValue.textContent = `${currentHp} / ${maxHp} (+${tempHp})`;
-    }
+		hpValue.textContent = `${currentHp} / ${maxHp} (+${tempHp})`;
+	}
 
-    function applyDamage() {
-        const damage = parseInt(document.getElementById("damage").value);
-        const tempHpInput = document.getElementById("tempHp");
-        const currentHpInput = document.getElementById("currentHp");
+	function applyDamage() {
+		const damage = parseInt(document.getElementById("damage").value);
+		const tempHpInput = document.getElementById("tempHp");
+		const currentHpInput = document.getElementById("currentHp");
 
-        let tempHp = Math.max(0, parseInt(tempHpInput.value) - damage);
-        let currentHp = parseInt(currentHpInput.value);
+		let tempHp = Math.max(0, parseInt(tempHpInput.value) - damage);
+		let currentHp = parseInt(currentHpInput.value);
 
-        if (tempHpInput.value < damage) {
-            currentHp -= (damage - (parseInt(tempHpInput.value) || 0));
-            tempHp = 0;
-        }
+		if (tempHpInput.value < damage) {
+			currentHp -= (damage - (parseInt(tempHpInput.value) || 0));
+			tempHp = 0;
+		}
 
-        tempHpInput.value = tempHp;
-        currentHpInput.value = Math.max(0, currentHp);
-        updateHp();
-    }
+		tempHpInput.value = tempHp;
+		currentHpInput.value = Math.max(0, currentHp);
+		updateHp();
+	}
 
-    function applyHeal() {
-        const heal = parseInt(document.getElementById("heal").value);
-        const currentHpInput = document.getElementById("currentHp");
-        const maxHp = parseInt(document.getElementById("maxHp").value);
+	function applyHeal() {
+		const heal = parseInt(document.getElementById("heal").value);
+		const currentHpInput = document.getElementById("currentHp");
+		const maxHp = parseInt(document.getElementById("maxHp").value);
 
-        let currentHp = Math.min(maxHp, parseInt(currentHpInput.value) + heal); // Aumenta o HP Atual, sem ultrapassar o máximo
+		let currentHp = Math.min(maxHp, parseInt(currentHpInput.value) + heal); // Aumenta o HP Atual, sem ultrapassar o máximo
 
-        currentHpInput.value = currentHp;
-        updateHp();
-    }
+		currentHpInput.value = currentHp;
+		updateHp();
+	}
 
-    window.onload = updateHp; // Atualiza a barra quando a página carrega
+	window.onload = updateHp; // Atualiza a barra quando a página carrega
 </script>
 
 </body>
