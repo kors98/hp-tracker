@@ -24,30 +24,31 @@
             margin-bottom: 20px;
             overflow: hidden;
         }
+		
+		.temp-hp-fill {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			background-color: LightCoral;
+			z-index: 1; /* Abaixo da barra de HP atual */
+			opacity: 0.7;
+			transition: width 0.3s ease-in-out;
+			pointer-events: none; /* Adicione isso para evitar interferência */
+}
 
         .hp-fill {
             height: 100%;
-            background-color: #4caf50;
+            background-color: red;
             transition: width 0.3s ease-in-out;
-            z-index: 1;
-        }
-
-        .temp-hp-fill {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            background-color: #00bcd4;
             z-index: 2;
-            opacity: 0.7;
-            transition: width 0.3s ease-in-out;
         }
 
         .overflow-hp {
             position: absolute;
             top: 0;
             height: 100%;
-            background-color: #f44336;
+            background-color: Crimson;
             z-index: 3;
             transition: width 0.3s ease-in-out;
         }
@@ -61,10 +62,8 @@
             line-height: 30px;
             font-weight: bold;
             color: white;
-			<!--text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; /* Contorno preto */-->
 		}
 
-        /* Contorno branco de 1px em todos os outros textos */
         h2, label, input, button {
             color: white;
         }
@@ -108,9 +107,9 @@
     <h2>HP Tracker</h2>
 
     <div class="hp-bar">
+		<div class="temp-hp-fill" id="tempHpBar"></div>
+		<div class="hp-fill" id="hpBar"></div>
         <div class="overflow-hp" id="overflowHpBar"></div>
-        <div class="temp-hp-fill" id="tempHpBar"></div>
-        <div class="hp-fill" id="hpBar"></div>
         <div class="hp-value" id="hpValue">0 / 0</div>
     </div>
 
